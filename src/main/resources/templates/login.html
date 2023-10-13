@@ -1,0 +1,385 @@
+<!doctype html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <script src="https://unpkg.com/scrollreveal@4/dist/scrollreveal.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .navbar{
+            background-color:#37517E!important;
+        }
+        .fst-section{
+            background-color:#37517E!important;
+        }
+        h1,h2,h3,h4,h5,h6{
+            font-family: "Jost", sans-serif!important
+        }
+        .logos-sec{
+            background-color: lightgray;
+            border-bottom: 1px soild #F3F5FA;
+        }
+        p,li{
+            font-family: 16px "Jost", sans-serif!important;
+        }
+        .qstn-sec{
+            background-color: #F3F5FA;
+        }
+        .service{
+            background-color: #F3F5FA;
+        }
+        .card:hover{
+            box-shadow: 2px 2px 2px 2px;
+            transition: 5sec;
+        }
+        .log-style{
+            background-color:#37517E!important ;
+            min-height: 500px;
+        }
+        .nav-item:hover{
+            border-bottom: 1px solid white;
+        }
+    </style>
+    <title>Home Page</title>
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <div class="container-fluid">
+            <a class="navbar-brand">ReadEasy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Contact us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Frequently Asked Questions</a>
+                    </li>
+                </ul>
+            </div>
+        <div>
+    </nav>
+</div>
+<div class="fst-section mt-10">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 p-5">
+                <h1 class="text-light mt-5">Expand Your Mind,reading a book</h1>
+                <p style="color: #FFFFFF99;"  class="text-light">Reading books is wonderfull way to spend your time. Here at we belive reading helps you makes connections with others</p>
+                <button type="button" class="btn btn-lg btn-primary rounded-pill text-light mt-5" data-bs-toggle="modal" data-bs-target="#login"></a>>Login</button>
+                <button type="button" class="btn btn-lg btn-primary rounded-pill text-light mt-5" data-bs-toggle="modal" data-bs-target="#signup"></a>>signup</button>
+            </div>
+            <div class="col-md-6">
+                <img src="static/book-store-logo.jpg" alt="" class="img-fluid animated">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="about-us">
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </symbol>
+        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </symbol>
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+    </svg>
+    <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(errorMessage)}">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        <div th:text="${errorMessage}"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div class="container-fluid bg-light p-5">
+        <div class="row">
+            <h2 style="font-family: 32px 'Jost', sans-serif!important; color:#37517E" class="text-center p-5">About ReadEasy</h2>
+            <div class="col-md-6 lft">
+                <P>Welcome to ReadEasy, your digital gateway to a world of knowledge and imagination. We are passionate about the written word and committed to making the magic of books accessible to everyone, everywhere.</P>
+                <h2 style="font-family: 16px 'Jost', sans-serif!important; color:#37517E" class="text-center p-2">Our Story</h2>
+                <p>At ReadEasy, we believe that books have the power to inspire, educate, and transform lives. Our journey began with a simple idea: to create a place where book lovers of all ages and backgrounds could discover their next great read, connect with fellow bibliophiles, and embark on literary adventures.</p>
+                <h2 style="font-family: 16px 'Jost', sans-serif!important; color:#37517E" class="text-center p-2">Our Mission</h2>
+                <p>Our mission is to foster a love for reading and learning by providing a curated selection of books that cater to diverse tastes and interests. Whether you're a seasoned bookworm or just starting your reading journey, we're here to guide you through the literary landscape.</p>
+            </div>
+            <div class="col-md-6 right">
+                <h2 style="font-family: 16px 'Jost', sans-serif!important; color:#37517E" class="text-center p-2">What Sets Us Apart</h2>
+                <ul>
+                    <li>Curated Collection: Our team of dedicated book enthusiasts carefully curates our collection to ensure you have access to a wide range of genres, from timeless classics to contemporary bestsellers.</li>
+                    <li>Community: ReadEasy is more than just a bookstore; it's a community of readers. Connect with fellow book lovers, join book clubs, and participate in lively discussions about your favorite titles.</li>
+                    <li>Ease of Access: Our user-friendly platform is designed to make browsing, buying, and reading books a breeze. Discover new releases, read book reviews, and shop with confidence.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="qstn-sec">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 lft">
+                <h3 style="color:#37517E;font-family: 34px 'Jost', sans-serif!important;" class="p-5 mt-5">Frequently Asked Questions</h3>
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item m-3">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                1. How do I place an order for books?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <strong>To place an order, simply browse our collection, add your desired books to your cart, and proceed to checkout. Follow the prompts to enter your shipping and payment information, and you're all set!</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item m-3">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                2. What payment methods do you accept?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <strong>We Accept Only Cash on Delivary.</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item m-3">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                3.Are e-books available on your platform?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 right p-5">
+                <h2 style="font-family: 16px 'Jost', sans-serif!important; color:#37517E" class="text-center p-2">Contact us</h2>
+                <form action="" method="post" role="form" class="php-email-form">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="col-md-6 form-group mt-3 mt-md-0">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <textarea class="form-control" name="message" placeholder="Message" required rows="15"></textarea>
+                    </div>
+                    <div class="text-center p-5">
+                        <button class="btn btn-outline-primary" type="submit">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="service mt-5">
+    <div class="container-fluid">
+        <div class="row p-5">
+            <h2 style="font-family: 32px 'Jost', sans-serif!important; color:#37517E" class="text-center p-5">SERVICES</h2>
+            <div class="col-md-6 col-sm-6 col-lg-3 ">
+                <div class="card" >
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-3 ">
+                <div class="card" >
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-3 ">
+                <div class="card" >
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.sr=ScrollReveal();
+    sr.reveal('.container-fluid',{duration:1500,
+    origin:'bottom',
+    distance:'50px',
+    easing: 'ease-in-out'});
+    sr.reveal('row',{duration:1500,
+    origin:'bottom',
+    distance:'50px',
+    easing: 'ease-in-out'});
+    sr.reveal('.fst-section',{duration:1500,
+    origin:'bottom',
+    distance:'50px',
+    easing: 'ease-in-out'
+    });
+    sr.reveal('.logos-sec',{duration:1500,
+    origin:'bottom',
+    distance:'50px',
+    easing: 'ease-in-out'
+    });
+    sr.reveal('.about-us',{duration:1500,
+    origin:'left',
+    distance:'50px',
+    easing: 'ease-in-out'
+    });
+    sr.reveal('.qstn-sec',{duration:1500,
+    origin:'bottom',
+    distance:'50px',
+    easing: 'ease-in-out'
+    });
+    sr.reveal('.lft',{duration:1500,
+    origin:'left',
+    distance:'50px',
+    easing: 'ease-in-out'
+    });
+    sr.reveal('.right',{duration:1500,
+    origin:'right',
+    distance:'50px',
+    easing: 'ease-in-out'
+    });
+</script>
+<!-- Modal -->
+<div class="modal fade" id="login" tabindex="-1" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="font-family: 32px 'Jost', sans-serif!important; color:#37517E" class="text-center p-5">Loginto ReadEazy</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="post">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required placeholder="user name">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required placeholder="password">
+                    </div>
+                    <div class="d-grid gap-2 col-12 mx-auto mt-3">
+                        <button class="btn btn-primary" type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- signup modal-->
+<div class="container">
+    <div class="modal fade" id="signup" tabindex="-1" aria-labelledby="loginLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 style="font-family: 32px 'Jost', sans-serif!important; color:#37517E" class="text-center p-5">Signup With ReadEazy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/create-new-account}" method="post" th:Object="${user}">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="firstName">First Name*</label>
+                                    <input type="text" class="form-control" id="firstName" name="First Name" th:field="*{firstName}" required placeholder="First Name">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="middleName">Middle Name</label>
+                                    <input type="text" class="form-control" id="middleName" name="Middle Name" th:field="*{middleName}"  placeholder="Middle Name">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="lastName">Last Name*</label>
+                                    <input type="text" class="form-control" id="lastName" name="Last Name" th:field="*{lastName}" required placeholder="Last Name">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="emailId">Email Id*</label>
+                                    <input type="text" class="form-control" id="emailId" name="email" th:field="*{emailId}" required placeholder="Email Id">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="contactNumber">Contact*</label>
+                                    <input type="text" class="form-control" id="contactNumber" name="email" th:field="*{contactNumber}" required placeholder="contact Number"></input>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="dateOfBirth">Date of Birth Id*</label>
+                                    <input type="date" class="form-control" id="dateOfBirth" name="email" th:field="*{dateOfBirth}" required placeholder="Date of birth">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="signup-password">Password</label>
+                                    <input type="password" class="form-control" id="signup-password" name="pwd" required placeholder="password">
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 col-12 mx-auto mt-3">
+                                <button class="btn btn-primary" type="submit">Create Account</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+<!--
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+-->
+</body>
+</html>

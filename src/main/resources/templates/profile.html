@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <script src="https://unpkg.com/scrollreveal@4/dist/scrollreveal.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="./project-4-style.css">
+    <title>Dashboard</title>
+    <style>
+        .custom-modal-width {
+            max-width: 800px;
+            width: 90%;
+        }
+        .navbar{
+            background-color:#37517E!important;
+        }
+        .fst-section{
+            background-color:#37517E!important;
+        }
+        h1,h2,h3,h4,h5,h6{
+            font-family: "Jost", sans-serif!important
+        }
+        .logos-sec{
+            background-color: lightgray;
+            border-bottom: 1px soild #F3F5FA;
+        }
+        p,li{
+            font-family: 16px "Jost", sans-serif!important;
+        }
+        .qstn-sec{
+            background-color: #F3F5FA;
+        }
+        .service{
+            background-color: #F3F5FA;
+        }
+        .log-style{
+            background-color:#37517E!important ;
+            min-height: 500px;
+        }
+        .nav-item:hover{
+            border-bottom: 1px solid white;
+        }
+        .profile-image-container {
+        width: 130px; /* Set the desired width for the profile image */
+        height: 130px; /* Set the desired height for the profile image */
+        border-radius: 50%; /* Make it a circular image */
+        float: left;
+        margin-right: 10px;
+        overflow: hidden; /* Clip overflow */
+        }
+        .profile-image {
+            width: 100%; /* Ensure the image fills the container */
+            height: 100%; /* Ensure the image fills the container */
+        }
+        .profile-img-sec{
+            min-height: 600px;
+        }
+        .list-group-item{
+            background-color: transparent;
+            color: white;
+        }
+        /* Style the container div to hold the image */
+        #image-container {
+            width: 100px;
+            height: 100px;
+            background-color: black;
+            border: 1px solid #ccc;
+            border-radius: 50%; /* Make it round */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        /* Style the input element to be hidden */
+
+    </style>
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <div class="container-fluid">
+            <a class="navbar-brand">ReadEasy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/home/page/1}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/profile}">Profile</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+                        <a href="#" class="nav-link" th:href="@{/cart}">Cart</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+                        <a href="#" class="nav-link">My Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link">logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="fst-section mt-10">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 p-5">
+                <h1 class="text-light mt-5">Profile</h1>
+                <!--<p style="color: #FFFFFF99;"  class="text-light">Discover a wide range of books on various topics.</p>-->
+            </div>
+            <div class="col-md-6">
+                <img src="./book-store-logo.jpg" alt="" class="img-fluid animated">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-profile">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 col-lg-3 col-sm-12 profile-img-sec bg-light">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="profile-image-container m-5">
+                            <img th:if="${#strings.isEmpty(isProfilePresent)}" src="https://beingselfish.in/wp-content/uploads/2023/07/no-dp19.jpg" alt="Profile Picture" class="profile-image" id="profile-picture">
+                            <img th:if="${!#strings.isEmpty(isProfilePresent)}" th:src="${profileUri}" alt="Profile Picture" class="profile-image" id="profile-picture-1">
+                        </div>
+                        <form method="post" action="/upload-profile-pic" enctype="multipart/form-data" id="profile-form">
+                            <input type="file" id="image-upload" accept="image/*" onchange="submitForm()" name="profilePicture" class="text-light">
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item text-dark">Home</li>
+                        <li class="list-group-item text-dark">Cart</li>
+                        <li class="list-group-item text-dark">My Orders</li>
+                        <li class="list-group-item text-dark">Signout</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-9 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="text-dark p-2">About</h1>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-12">
+                                <h4 class="text-dark ">First Name : </h4>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <h4 class="text-dark" th:text="${user.firstName}"></h4>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <h4 class="text-dark ">Date of Birth : </h4>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <h4 class="text-dark" th:text="${user.dateOfBirth}"></h4>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <h4 class="text-dark ">Last Name : </h4>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <h4 class="text-dark" th:text="${user.lastName}"></h4>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <h4 class="text-dark ">Email Id : </h4>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <h4 class="text-dark" th:text="${user.emailId}"></h4>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <h4 class="text-dark ">Contact: </h4>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <h4 class="text-dark" th:text="${user.contactNumber}"></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function submitForm(){
+        document.getElementById('profile-form').submit();
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

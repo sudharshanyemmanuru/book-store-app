@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .review-container {
+            max-height: 300px; /* Set the maximum height for the reviews */
+            overflow-y: auto; /* Enable vertical scrolling when content exceeds max height */
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .review-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            overflow: hidden; /* Clip overflow */
+        }
+        .profile-image-container {
+            width: 50px; /* Set the desired width for the profile image */
+            height: 50px; /* Set the desired height for the profile image */
+            border-radius: 50%; /* Make it a circular image */
+            float: left;
+            margin-right: 10px;
+            overflow: hidden; /* Clip overflow */
+        }
+        .profile-image {
+            width: 100%; /* Ensure the image fills the container */
+            height: 100%; /* Ensure the image fills the container */
+        }
+        .reviewer-name {
+            font-weight: bold;
+        }
+        .review-text {
+            clear: both;
+        }
+        .navbar{
+            background-color:#37517E!important;
+        }
+        .fst-section{
+            background-color:#37517E!important;
+        }
+        h1,h2,h3,h4,h5,h6{
+            font-family: "Jost", sans-serif!important
+        }
+        .logos-sec{
+            background-color: lightgray;
+            border-bottom: 1px soild #F3F5FA;
+        }
+        p,li{
+            font-family: 16px "Jost", sans-serif!important;
+        }
+        .qstn-sec{
+            background-color: #F3F5FA;
+        }
+        .service{
+            background-color: #F3F5FA;
+        }
+        .log-style{
+            background-color:#37517E!important ;
+            min-height: 500px;
+        }
+        .nav-item:hover{
+            border-bottom: 1px solid white;
+        }
+        .rating {
+            font-size: 25px;
+            display: inline-block;
+        }
+        .rating .star {
+            color: lightgray;
+            cursor: pointer;
+        }
+
+        .rating .star.gold {
+            color: gold;
+        }
+        .rating-1{
+             font-size: 25px;
+            display: inline-block;
+        }
+        .rating-1 .star{
+            color: lightgray;
+            cursor: pointer;
+        }
+        .rating-1 .star.gold{
+            color: gold;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <div class="container-fluid">
+            <a class="navbar-brand">ReadEasy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/home/page/1}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/profile}">Profile</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+                        <a href="#" class="nav-link" th:href="@{/cart}">Cart</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+                        <a href="#" class="nav-link">My Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link">logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container-fluid mt-4">
+    <li class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(errorMessage)}"
+        th:text="${errorMessage}"></li>
+    <div class="row">
+        <div class="col-lg-3 col-sm-12">
+            <img th:src="'http://localhost:8080/show-book-cover-img/'+${book.bookId}" class="img-fluid">
+        </div>
+        <div class="col-lg-9 col-sm-12">
+            <h1 th:text="${book.bookName}"></h1>
+            <p class="text-primary" th:text="'Price : $'+${book.price}"></p>
+            <a href="" class="btn btn-warning">Buy Now</a>
+            <a th:href="@{'/add-to-cart/'+${book.bookId}}" class="btn btn-secondary">Add to Cart</a><p>Rating</p><br>
+            <div class="rating mt-3 p-2" th:data-rating-value="${grantRating}">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-3 p-2">
+            <h3>About the Book</h3>
+            <p  th:text="${book.bookSummary}"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-3 p-2">
+            <h3>About the Author</h3>
+            <p  th:text="${book.author.aboutAuthor}"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-3 p-2">
+            <div class="container-fluid card">
+                <h1>Reviews</h1>
+                <div class="review-container">
+                    <div class="container-fluid">
+                        <div class="review-card" th:each="review:${reviews}">
+                            <div class="profile-image-container">
+                                <img th:src="'http://localhost:8080/show-profile-pic/'+${review.user.profilePicture.profilePicId}" alt="Profile Image 1" class="profile-image">
+                            </div>
+                            <div class="reviewer-name" th:text="${review.user.firstName}"></div>
+                            <div class="rating-1 cmn mt-3 p-2 reviewer-name" th:data-rating-user-value="${review.rating}">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+
+                            <div class="review-text" th:text="${review.reviewText}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 ">
+            <div class="container-fluid mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title text-center">Write a Review</h4>
+                                <form method="post" th:action="@{/post-review}">
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="hid" th:value="${book.bookId}" required name="bookId">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="rating">Rating</label>
+                                        <select class="form-control" id="rating" required name="rating">
+                                            <option value="">Select rating</option>
+                                            <option value="5">5 Stars</option>
+                                            <option value="4">4 Stars</option>
+                                            <option value="3">3 Stars</option>
+                                            <option value="2">2 Stars</option>
+                                            <option value="1">1 Star</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="review">Your Review</label>
+                                        <textarea class="form-control" id="review" rows="5" placeholder="Write your review here" required name="reviewText"></textarea>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-lg">Submit Review</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const ratingValue = document.querySelector('.rating').getAttribute('data-rating-value');;
+
+    for (let i = 0; i < parseInt(ratingValue); i++) {
+        document.querySelector('.rating .star:nth-child(' + (i + 1) + ')').classList.add('gold');
+    }
+    const rate=document.querySelector('.rating-1').getAttribute('data-rating-user-value');
+    for (let i = 0; i < parseInt(rate); i++) {
+        document.querySelector('.cmn .star:nth-child(' + (i + 1) + ')').classList.add('gold');
+    }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

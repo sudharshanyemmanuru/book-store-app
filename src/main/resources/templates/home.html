@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore Home</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .custom-modal-width {
+            max-width: 800px;
+            width: 90%;
+        }
+        .navbar{
+            background-color:#37517E!important;
+        }
+        .fst-section{
+            background-color:#37517E!important;
+        }
+        h1,h2,h3,h4,h5,h6{
+            font-family: "Jost", sans-serif!important
+        }
+        .logos-sec{
+            background-color: lightgray;
+            border-bottom: 1px soild #F3F5FA;
+        }
+        p,li{
+            font-family: 16px "Jost", sans-serif!important;
+        }
+        .qstn-sec{
+            background-color: #F3F5FA;
+        }
+        .service{
+            background-color: #F3F5FA;
+        }
+        .log-style{
+            background-color:#37517E!important ;
+            min-height: 500px;
+        }
+        .nav-item:hover{
+            border-bottom: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <div class="container-fluid">
+            <a class="navbar-brand">ReadEasy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/home/page/1}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/profile}">Profile</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+                        <a href="#" class="nav-link" th:href="@{/cart}">Cart</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+                        <a href="#" class="nav-link">My Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link">logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<!-- Hero Section -->
+<div class="fst-section mt-10">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 p-5">
+                <h1 class="text-light mt-5" th:text="'Welcome '+${name}"></h1>
+                <p style="color: #FFFFFF99;"  class="text-light">Discover a wide range of books on various topics.<br>Ignite Your Reading Exprerience with ReadEazy</p>
+                <a href="#" class="btn btn-lg btn-primary rounded-pill text-light mt-5">Explore More</a>
+            </div>
+            <div class="col-md-6">
+                <img src="https://www.google.com/imgres?imgurl=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fthumbnails%2F008%2F901%2F794%2Fsmall%2Fopen-book-with-flying-stars-magic-reading-knowledge-fairy-tale-vector.jpg&tbnid=ez8Atb2Z5w0gHM&vet=12ahUKEwiivqXA7tyBAxVnSWwGHbnyBaAQMygEegQIARB3..i&imgrefurl=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fopen-book&docid=BoXggZM8Ajd2DM&w=400&h=200&q=open%20book%20images&ved=2ahUKEwiivqXA7tyBAxVnSWwGHbnyBaAQMygEegQIARB3" alt="" class="img-fluid">
+                <h1 class="text-light mt-5">ReadEazy. lets Ignite your Reading Experience</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Books Section -->
+<section class="py-5 fst-section" sec:authorize="hasRole('ROLE_USER')">
+    <div class="container text-center">
+        <h2 class="mb-4 text-light">Search Books</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form th:action="@{/fetch-books}" class="input-group" method="post">
+                    <input type="text" class="form-control" placeholder="Enter book title or author or Categeory Name" name="parameter">
+                    <div class="input-group-append">
+                        <button class="btn btn-danger btn-sm" type="submit">Search Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="py-5" sec:authorize="hasRole('ROLE_USER')">
+    <div class="main-section p-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 col-sm-12 p-5">
+                    <h5 style="font-family: 32px 'Jost', sans-serif!important; color:#37517E" class="text-center">All Categeories</h5>
+                    <form th:action="@{/fetch-books}" method="post" id="fetchBook">
+                        <ul class="list-group">
+                            <li class="list-group-item p-3" th:each="categeory:${categeories}">
+                                <input class="form-check-input me-1" type="radio" name="parameter" th:value="${categeory.categeoryName}" onclick="submitForm()" aria-label="..."><span th:text="${categeory.categeoryName}"></span>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="col-md-9 col-sm-12">
+                    <div class="container-fluid">
+                        <h2 class="text-center mb-4">Featured Books</h2>
+                        <div class="card" th:each="book:${books}">
+                            <div class="row no-gutters" >
+                                <!-- Left Division -->
+                                <div class="col-md-3">
+                                    <div class="card-body">
+                                        <img th:src="'http://localhost:8080/show-book-cover-img/'+${book.bookId}" alt="image" class="img-fluid">
+                                    </div>
+                                </div>
+                                <!-- Right Division -->
+                                <div class="col-md-9">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-dark mt-3" th:text="${book.bookName}"></h5>
+                                        <p style="font-family: 32px 'Jost', sans-serif!important; color:#37517E" class="card-text" th:text="'Written by : '+${book.author.authorName}"></p>
+                                        <p style="font-family: 32px 'Jost', sans-serif!important; color:#37517E" class="card-text" th:text="'Price : $'+${book.price}"></p>
+                                        <a th:href="@{'/view-book-details/'+${book.bookId}}" class="btn btn-secondary">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Pagination starts -->
+        <div class="pagination justify-content-center mt-5">
+            <ul class="pagination justify-content-center mt-5">
+                <li class="page-item">
+                    <a th:if="${currentPage > 1}" class="page-link" th:href="@{'/home/page/' + ${currentPage - 1}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                    <a th:unless="${currentPage > 1}" class="page-link disabled" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <li class="page-item">
+                        <a th:if="${currentPage != i}" th:href="@{'/home/page/' + ${i}}" class="page-link">[[${i}]]</a>
+                        <a class="page-link" th:unless="${currentPage != i}">[[${i}]]</a>
+                    </li>
+                 </span>
+                <li>
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${currentPage + 1}}" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    <a th:unless="${currentPage < totalPages}" class="page-link disabled" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    <!-- pagination ends-->
+    </div>
+</section>
+<section class="py-5" sec:authorize="hasRole('ROLE_ADMIN')">
+    <div class="container">
+        <button class="btn btn-outline-danger m1-auto" data-toggle="modal"
+                data-target="#categeoryModel">Add New Categeory</button>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Categeory Name</th>
+                    <th>Add Book</th>
+                    <th>View All Books</th>
+                    <th>Delete Categeory</th>
+                </tr>
+                </thead>
+         <tbody>
+             <tr th:each="categeory:${categeories}">
+                 <td th:text="${categeory.categeoryName}"></td>
+                 <td>
+                     <a href="" class="btn btn-secondary" data-toggle="modal" data-target="#addBookModel" th:onclick="'openModal(' + ${categeory.categeoryId} + ')'">Add New Book</a>
+                 </td>
+                 <td>
+                     <a th:href="@{'/admin/view-books/'+${categeory.categeoryId}}" class="btn btn-warning">View Books</a>
+                 </td>
+                 <td>
+                     <a href="" class="btn btn-danger">Delete Categeory</a>
+                 </td>
+             </tr>
+         </tbody>
+            </table>
+    </div>
+    <!--Categeory Modal -->
+    <div class="modal fade" id="categeoryModel" tabindex="-1" role="dialog" aria-labelledby="facultyModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="facultyModalLabel">Add New Categeory</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/add-new-categeory}" method="post" id="catForm">
+                        <div class="form-group">
+                            <label for="name">Categeory Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter Categeory name"
+                                   required name="cat">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Book Model -->
+
+    <div class="modal fade" id="addBookModel" tabindex="-1" role="dialog" aria-labelledby="facultyModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered custom-modal-width" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addBookModalLabel">Add New Categeory</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/add-new-book}" method="post" class="row g-3" th:Object="${book}" id="addBookForm" enctype="multipart/form-data">
+                        <div class="col-md-6">
+                            <label for="categeoryId" class="form-label">Categeory Id</label>
+                            <input type="email" class="form-control" id="categeoryId" readonly name="categeoryId">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="bookName" class="form-label">Book Name : </label>
+                            <input type="text" class="form-control" id="bookName" th:field="*{bookName}" placeholder="Example: The Jungle...">
+                        </div>
+                        <div class="col-12">
+                            <label for="summary" class="form-label">Summary of the Book : </label>
+                            <textarea  class="form-control" id="summary" placeholder="write upto 50 to 100 words" rows="5" th:field="*{bookSummary}"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label for="issuedAt" class="form-label">Issued At : </label>
+                            <input type="date" class="form-control" id="issuedAt" th:field="*{issudeAt}">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="bookImage" class="form-label">Select Cover Image for the Book</label>
+                            <input class="form-control form-control-sm" id="bookImage" type="file" name="bookCoverImg">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="author-name" class="form-label">Author Name : </label>
+                            <input type="text" class="form-control" id="author-name" placeholder="Name of Author" name="authName">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="about-author" class="form-label">About Author : </label>
+                            <textarea  class="form-control" id="about-author" placeholder="write upto 50 to 100 words" rows="5" name="authSummary"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="quantity" class="form-label">Quantity : </label>
+                            <input type="text" class="form-control" id="quantity" placeholder="Quantity" name="quantity" th:field="*{quantity}">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="price" class="form-label">Book Cost : </label>
+                            <input type="text" class="form-control" id="price" placeholder="Cost of the Book" name="authName" th:field="*{price}">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitBookDetails()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; 2023 Bookstore. All rights reserved.</p>
+</footer>
+<!-- Link to Bootstrap JS (Optional) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function submitForm(){
+        var ele=document.getElementById("catForm");
+        ele.submit();
+    }
+    function submitBookDetails(){
+        var frm=document.getElementById("addBookForm");
+        frm.submit();
+    }
+</script>
+<script>
+    function openModal(valueToPass) {
+        console.log('value : '+valueToPass);
+        document.getElementById('categeoryId').value =valueToPass;
+
+        $('#myModal').modal('show');
+    }
+</script>
+<script>
+    function submitForm(){
+        document.getElementById('fetchBook').submit();
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

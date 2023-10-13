@@ -1,0 +1,31 @@
+.navbar{
+    background-color:#37517E!important;
+
+}
+.fst-section{
+    background-color:#37517E!important;
+}
+h1,h2,h3,h4,h5,h6{
+    font-family: "Jost", sans-serif!important
+}
+.logos-sec{
+    background-color: lightgray;
+    border-bottom: 1px soild #F3F5FA;
+}
+p,li{
+    font-family: 16px "Jost", sans-serif!important;
+}
+.qstn-sec{
+    background-color: #F3F5FA;
+}
+.service{
+    background-color: #F3F5FA;
+}
+.card:hover{
+    box-shadow: 2px 2px 2px 2px;
+    transition: 5sec;
+}
+.log-style{
+    background-color:#37517E!important ;
+    min-height: 500px;
+}
