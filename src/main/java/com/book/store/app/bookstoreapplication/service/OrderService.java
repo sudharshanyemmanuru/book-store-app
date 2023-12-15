@@ -32,4 +32,25 @@ public class OrderService {
         ordersRepository.save(order);
         emailService.sendAcknowldgement(order,address,loggedInUser);
     }
+    public TransactionDetails createTransaction(String userName){
+        NewUser user=signupService.getUserByFirstName(userName);
+        Cart cart=user.getCart();
+        double amount=cartService.getGrantTotalAmount(cart.getAddedBooks());
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("amount",(amount*100));
+        jsonObject.put("currency",CURRENCY);
+       try{
+           RazorpayClient razorpayClient=new RazorpayClient(KEY,SECRET_KEY);
+           Order order=razorpayClient.orders.create(jsonObject);
+           TransactionDetails transactionDetails=TransactionDetails.builder()
+                   .orderId(order.get("id"))
+                   .amount(order.get("amount"))
+                   .currency(CURRENCY)
+                   .key(KEY).build();
+           return transactionDetails;
+       }catch (Exception ex){
+           System.out.println(ex.getMessage());
+       }
+       return null;
+    }
 }
