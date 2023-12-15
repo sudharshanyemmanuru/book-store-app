@@ -30,6 +30,7 @@ public class SecurityConfig {
                                 .requestMatchers("/place-order").authenticated()
                                 .requestMatchers("/static/**").permitAll()
                                 .requestMatchers("/email/verify/**").permitAll()
+                                .requestMatchers("/payment/**").authenticated()
                 )
                 .formLogin(login->login.loginPage("/login")
                         .defaultSuccessUrl("/home/page/1")
