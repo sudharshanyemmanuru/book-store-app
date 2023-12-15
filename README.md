@@ -1,5 +1,5 @@
 # About this project
-  ReadEazy is a E-commerce application for Book store build using the spring boot as backend and thymeleaf for front end. This application has all the basic functionalities of a simple E-commerce application.
+  ReadEazy is a E-commerce application for Book store management built using the spring boot as backend and thymeleaf for front end. This application has all the basic functionalities of a simple E-commerce application.
   I have Included the functionalities like user registration and user login. When user creates a new account he/she will recive a activation link to the registred email untill unless they verified their email Id
   they can't login into system. I have used the spring security for securing the web paths and web pages.
 
